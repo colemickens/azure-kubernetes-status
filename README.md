@@ -73,11 +73,8 @@ will also utilize the same deployment mechanism for basic cluster deployments as
   `kube-up` is planned to be deprecate eventually. [`kubernetes-anywhere`](https://github.com/kubernetes/kubernetes-anywhere) 
   will take it's place as the starting point for deploying a basic cluster into 
   various clouds.
-  
-  [Here's a preliminary PR with a slightly old version of this mechanism on an 
-  old repo](https://github.com/kubernetes/kube-deploy/pull/106). It will soon be
-  closed and a new PR opened against `kubernetes-anywhere` using 
-  **[this branch that is already tested and working](https://github.com/colemickens/kubernetes-anywhere/tree/azure)**.
+
+  [The Azure implementation of `kubernetes-anywhere` has been submitted as a PR.](https://github.com/kubernetes/kubernetes-anywhere/pull/155)
 
 3. **Azure PersistentVolume Storage Plugin**
 
