@@ -74,7 +74,9 @@ will also utilize the same deployment mechanism for basic cluster deployments as
   will take it's place as the starting point for deploying a basic cluster into 
   various clouds.
 
-  [The Azure implementation of `kubernetes-anywhere` has been submitted as a PR.](https://github.com/kubernetes/kubernetes-anywhere/pull/155)
+  [The Azure implementation of `kubernetes-anywhere` has been merged](https://github.com/kubernetes/kubernetes-anywhere).
+
+  Next steps are to add Azure CI jobs after Google Cloud CI has been added.
 
 3. **Azure PersistentVolume Storage Plugin**
 
@@ -91,3 +93,4 @@ will also utilize the same deployment mechanism for basic cluster deployments as
   working on an Azure Ingress Controller implementation that will be enable 
   users to provision [Azure ApplicationGateways](https://azure.microsoft.com/en-us/services/application-gateway/) 
   (L7 HTTP LoadBalancers) for Ingress resources in Kubernetes.
+
