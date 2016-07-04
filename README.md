@@ -21,8 +21,7 @@ CloudProvider implementation.
 
 ### Bring-up Options
 
-1. **Microsoft**: [Custom Ansible + Terraform (ARM)](https://github.com/edevil/kubernetes-deployment)
-  * Created by Microsoft employee
+1. **Bright Pixel**: [Custom Ansible + Terraform (ARM)](https://github.com/edevil/kubernetes-deployment)
   * Ubuntu + Terraform + Ansible
   * Uses the modern Azure Resource Manager stack.
 
