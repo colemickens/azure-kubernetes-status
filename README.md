@@ -64,8 +64,7 @@ will also utilize the same deployment mechanism for basic cluster deployments as
   Networking in Azure. This enables the easy, automatic exposure of Kubernetes 
   Services outside of your cluster.
 
-  ~~**[This is the pull request for `kubernetes`.(file:///dev/null).**~~
-  (Expected by end of June.)
+  [This is the pull request for `kubernetes`.](https://github.com/kubernetes/kubernetes/pull/28821)
 
 2. **Azure Next-Gen Bring-up (`kubernetes-anywhere`)**
 
