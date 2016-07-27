@@ -4,13 +4,13 @@ This repo will hold a `README.md` which will contain information about the state
  of the world in regards to Kubernetes on Azure.
 
 This consists of two primary sections:
- * Current State of Kubernetes 1.2 and 1.3
+ * Current State of Kubernetes 1.3
  * Planned State for Kubernetes 1.4
 
 If you'd like to see a complete end-to-end demo of Kubernetes 1.4-**alpha** on 
 Azure, checkout [the azure-kubernetes-demo repo](https://github.com/colemickens/azure-kubernetes-demo).
 
-## Current State of Kubernetes 1.2 and 1.3
+## Current State of Kubernetes 1.3 (Stable releases)
 
 There is basic bring-up support for Kubernetes on Azure but there is no
 CloudProvider implemented. This means that users must run a software-defined 
