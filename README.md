@@ -64,11 +64,11 @@ will also utilize the same deployment mechanism for basic cluster deployments as
   Networking in Azure. This enables the easy, automatic exposure of Kubernetes 
   Services outside of your cluster.
 
-  [This is the pull request for `kubernetes`.](https://github.com/kubernetes/kubernetes/pull/28821)
+  [The Azure CloudProvider PR has been merged for Kubernetes 1.4.](https://github.com/kubernetes/kubernetes/pull/28821)
 
 2. **Azure Next-Gen Bring-up (`kubernetes-anywhere`)**
 
-  `kube-up` is planned to be deprecate eventually. [`kubernetes-anywhere`](https://github.com/kubernetes/kubernetes-anywhere) 
+  `kube-up` is planned to be deprecated eventually. [`kubernetes-anywhere`](https://github.com/kubernetes/kubernetes-anywhere) 
   will take it's place as the starting point for deploying a basic cluster into 
   various clouds.
 
