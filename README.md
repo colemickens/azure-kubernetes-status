@@ -1,105 +1,76 @@
 # Status of Kubernetes on Azure
 
 Contents:
- * Current State of Kubernetes 1.3
- * Planned State for Kubernetes 1.4
- * Future Work
+ * [Stable: Kubernetes 1.3 Status](#stable-kubernetes-13-status)
+ * [Alpha: Kubernetes 1.4 Status](#alpha-kubernetes-14-status)
+ * [Future Work](#future-work)
 
-If you'd like to see a complete end-to-end demo of Kubernetes 1.4-**alpha** on 
-Azure, checkout [the azure-kubernetes-demo repo](https://github.com/colemickens/azure-kubernetes-demo).
+The Kubernetes 1.4 approach is recommended, despite being pre-release.
+It has more features and an easier deployment process.
 
 ## Stable: Kubernetes 1.3 Status
 
-There is [basic bring-up support (kube-up) for Kubernetes on Azure](http://kubernetes.io/docs/getting-started-guides/azure/)
-but there is no CloudProvider implemented. This means that users must run a software-defined
-network in order to meet the requirements for Kubernetes. Additionally, users
-must do manual work to expose Services out to the Internet, rather than being
-able to rely on automatic L4 LoadBalancer provisioning provided by a
-CloudProvider implementation.
+* Kubernetes 1.3 does not have native cloudprovider support for Azure.
+* The bringup you choose needs to establish a pod network (often via Flannel)
+* You will need to manually configure any desired load balancers.
 
-### Bring-up Options
+### Recommended Cluster Deployment Strategy
 
-1. **Bright Pixel**: [Custom Ansible + Terraform (ARM)](https://github.com/edevil/kubernetes-deployment)
-  * Ubuntu + Terraform + Ansible
-  * Uses the modern Azure Resource Manager stack.
-
-2. **Microsoft**: [kube-up: with custom `azkube` tool (ARM)](http://colemickens.github.io/docs/getting-started-guides/azure/)
-  * Documented [here](http://colemickens.github.io/docs/getting-started-guides/azure/), 
-    pending [merge into the Kubernetes docs repo](https://github.com/kubernetes/kubernetes.github.io/pull/149)
-  * CoreOS + cloud-config + ARM Template + Flannel
-  * Uses a custom tool, [`azkube`](https://github.com/colemickens/azkube)
-  * The tool automates creation of an ARM Template that uses set of cloud-config
-    files to configure a `hyperkube`-powered Kubernetes cluster.
-  * The generated template could be re-used later, **without** needing to use
-    `azkube` again).
-  * Uses the modern Azure Resource Manager stack.
-
-3. **Weaveworks**: [Custom Deployment using Weave (ASM)](http://kubernetes.io/docs/getting-started-guides/coreos/azure/)
-  * Contributed to `kubernetes` repo by [Weaveworks](https://www.weave.works/).
-  * Ubuntu + azure node api + Weave
-  * A `node.js` driven deployment. 
-  * Uses the *legacy* Azure Service Management stack
-
-
-4. **AppFormix**: kube-up: clasic Salt (ASM)
-  * Contributed to `kubernetes` repo by [AppFormix](http://www.appformix.com/)
-  * Uses [`azure-xplat-cli`](https://github.com/Azure/azure-xplat-cli) with Salt.
-  * The [pull request (#21207)](https://github.com/kubernetes/kubernetes/pull/21207) 
-    for this is currently open and pending merge.
-  * Uses the *legacy* Azure Service Management stack (though there are plans to 
-    quickly move it to the modern ARM stack).
+#### [kube-up](http://kubernetes.io/docs/getting-started-guides/azure/)
+  * Documentation
+    * [Kubernetes on Azure (Flannel based)](https://kubernetes.io/docs/getting-started-guides/azure/)
+    * [`azkube` Readme](https://github.com/colemickens/azkube/blob/master/README.md)
+  * Features
+    * Uses a custom tool to automate everything, [`azkube`](https://github.com/colemickens/azkube)
+    * Azure VM Scale Sets + Azure ARM Template
+    * CoreOS + cloud-init + Flannel
+    * Uses the modern Azure Resource Manager stack.
+    * Outputs a deployment directory containing utilities for connecting to the cluster, as well as tools for SSHing to nodes in the cluster.
+    * Outputs an ARM template that could be modified and/or re-used.
 
 ## Alpha: Kubernetes 1.4 Status
 
-Kubernetes 1.4 is expected to release as stable in September 2016.
+* Kubernetes 1.4 is expected to release as stable in September 2016.
+* Kubernetes 1.4 will include native cloudprovider support for Azure.
+* Kubernetes 1.4 will include AzureDisk as a storage volume type. This leverages data disks in Azure, similar to how GCEPersistentDisk works.
 
-1. **Azure CloudProvider**
-    * **Status**: Complete!
-    * **Availability**: Available in the `master` branch of `kubernetes`. It should be present in the next alpha release, `v1.4.0-alpha.2`.
-    * **Description**:
-       * This will enable automatic L4 LoadBalancer provisioning and native Pod 
-         Networking in Azure.
+### Recommended Cluster Deployment Strategy
 
-2. **Azure Next-Gen Bring-up (`kubernetes-anywhere`)**
-    * **Status**: Initial Version Complete
-	* **Availability**: Available in the `master` branch of [`kubernetes-anywhere`](https://github.com/kubernetes/kubernetes-anywhere).
-    * **Description**: `kube-up` is planned to be deprecated eventually. [`kubernetes-anywhere`](https://github.com/kubernetes/kubernetes-anywhere) will take it's place as the starting point for deploying a basic cluster into various clouds.
-
+#### [kubernetes-anywhere](https://github.com/kubernetes/kubernetes-anywhere/tree/master/phase1/azure/README.md)
+  * Documentation
+    * [General Documentation](https://github.com/kubernetes/kubernetes-anywhere)
+    * [Azure Getting Started Guide](https://github.com/kubernetes/kubernetes-anywhere/blob/master/phase1/azure/README.md)
+  * Features
+    * [Azure Cloudprovider Support](https://github.com/kubernetes/kubernetes/pull/28821)
+    * [Azure Peristent Volume Support](https://github.com/kubernetes/kubernetes/pull/29836) (thanks [@rootfs](https://github.com/rootfs)!)
+    * [Azure Dynamic Disk Provisioning](https://github.com/kubernetes/kubernetes/pull/30091) (thanks [@rootfs](https://github.com/rootfs)!)
+    * Configures and activates the cloudprovider support automatically
+    * Automatic Pod network configuration without the overhead of Flannel
+    * Automatic L4 LoadBalancers for Services (Type=LoadBalancer)
+    * Leverages Terraform to enable manual scaling up/down of the cluster
+    * Leverages Ignition for fast, idempotent node bootstrapping
+  * Caveats
+    * Does NOT use Azure VM Scale Sets (see Notes below)
 
 ## Future Work
 
 These are potential projects that anyone could pick up to help Kubernetes on Azure scenarios.
 
-0. **Azure PersistentVolume Storage Plugin**
-    * **Status**: In Progess
-    * **Description**:
-      * [Huamin Chen (Redhat)](https://github.com/rootfs) is working on a Persistent Volume plugin for Azure VHDs
-      * [Work-in-progress pull request](https://github.com/kubernetes/kubernetes/pull/25195)
+1. **Azure Ingress Controller**
+  * **Status**: Not started
+  * **Description**:
+    * Build an `azure-ingress-controller` using [Azure's ApplicationGateways](https://azure.microsoft.com/en-us/services/application-gateway/)
+    * Similar to the [Google Cloud Ingress Controller](https://github.com/kubernetes/contrib/tree/master/ingress/controllers/gce)
+2. **Azure Cluster-Autoscale Backend**
+  * **Status**: Not started
+  * **Description**:
+    * Build an Azure backend for [`cluster-autoscale`](https://github.com/kubernetes/contrib/tree/master/cluster-autoscaler).
+3. **Azure Federation Support**
+  * **Status**: Not started
+  * **Description**:
+    * Implementation of [dnsprovider](https://github.com/kubernetes/kubernetes/tree/master/federation/pkg/dnsprovider).
+    * Likely additional work...
 
-1. **Additional improvements to `kubernetes-anywhere`**
-    * **Status**: Planned, but not started
-    * **Description**:
-      * allow for multiple side-by-side deployments ([WIP Pull Request](https://github.com/kubernetes/kubernetes-anywhere/pull/157))
-      * automate creation of the Azure Active Directory ServicePrincipal ([Issue](https://github.com/kubernetes/kubernetes-anywhere/issues/184))
+## Notes
 
-2. **Continuous Integration Testing for `kubernetes-anywhere`**
-    * **Status**: Planned, but not started
-    * **Description**:
-      * Create Jenkins jobs running deployments of `master` kubernetes and `master` kubernetes-anywhere.
-      * Upstream Issue: https://github.com/kubernetes/kubernetes-anywhere/issues/171
-
-3. **Azure Ingress Controller**
-    * **Status**: Not started
-    * **Description**:
-      * Build an `azure-ingress-controller` in the same vein as the [Google Cloud Ingress Controller](https://github.com/kubernetes/contrib/tree/master/ingress/controllers/gce.), but using [Azure's ApplicationGateways](https://azure.microsoft.com/en-us/services/application-gateway/).
-
-4. **Azure Cluster-Autoscale Backend**
-    * **Status**: Not started
-    * **Description**:
-      * Build an Azure backend for [`cluster-autoscale`](https://github.com/kubernetes/contrib/tree/master/cluster-autoscaler).
-
-5. **Azure Federation Support**
-    * **Status**: Not started
-    * **Description**:
-      * Implementation of [dnsprovider](https://github.com/kubernetes/kubernetes/tree/master/federation/pkg/dnsprovider).
-      * Likely additional work...
+* Kubernetes-Anywhere does not use VMSS due to limitations around VMSS and Disk Attachment and the fact that the Azure CloudProvider does not work with VMSS. There is working on-going to remove these restrictions.
