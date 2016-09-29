@@ -1,38 +1,16 @@
 # Status of Kubernetes on Azure
 
 Contents:
- * [Stable: Kubernetes 1.3 Status](#stable-kubernetes-13-status)
- * [Alpha: Kubernetes 1.4 Status](#alpha-kubernetes-14-status)
+ * [Stable: Kubernetes 1.4 Status](#stable-kubernetes-14-status)
  * [Future Work](#future-work)
 
-The Kubernetes 1.4 approach is recommended, despite being pre-release.
-It has more features and an easier deployment process.
+## Stable: Kubernetes 1.4 Status
 
-## Stable: Kubernetes 1.3 Status
-
-* Kubernetes 1.3 does not have native cloudprovider support for Azure.
-* The bringup you choose needs to establish a pod network (often via Flannel)
-* You will need to manually configure any desired load balancers.
-
-### Recommended Cluster Deployment Strategy
-
-#### [kube-up](http://kubernetes.io/docs/getting-started-guides/azure/)
-  * Documentation
-    * [Kubernetes on Azure (Flannel based)](https://kubernetes.io/docs/getting-started-guides/azure/)
-    * [`azkube` Readme](https://github.com/colemickens/azkube/blob/master/README.md)
-  * Features
-    * Uses a custom tool to automate everything, [`azkube`](https://github.com/colemickens/azkube)
-    * Azure VM Scale Sets + Azure ARM Template
-    * CoreOS + cloud-init + Flannel
-    * Uses the modern Azure Resource Manager stack.
-    * Outputs a deployment directory containing utilities for connecting to the cluster, as well as tools for SSHing to nodes in the cluster.
-    * Outputs an ARM template that could be modified and/or re-used.
-
-## Alpha: Kubernetes 1.4 Status
-
-* Kubernetes 1.4 is expected to release as stable in September 2016.
-* Kubernetes 1.4 will include native cloudprovider support for Azure.
-* Kubernetes 1.4 will include AzureDisk as a storage volume type. This leverages data disks in Azure, similar to how GCEPersistentDisk works.
+* Kubernetes 1.4 is available as of September 26, 2016
+* It includes native cloudprovider suport for Azure, including:
+    * native pod networking enabled without running an overlay/SDN.
+    * automatic Azure L4 load balancers provisioned for Services (with `Type=LoadBalancer`)
+* It also includes AzureDisk as a storage volume type. This leverages data disks in Azure, similar to how GCEPersistentDisk works.
 
 ### Recommended Cluster Deployment Strategy
 
@@ -57,7 +35,7 @@ It has more features and an easier deployment process.
 These are potential projects that anyone could pick up to help Kubernetes on Azure scenarios.
 
 1. **Azure Ingress Controller**
-  * **Status**: Not started
+  * **Status**: Work In Progress (**[@JargoonPard](https://github.com/JargoonPard)**)
   * **Description**:
     * Build an `azure-ingress-controller` using [Azure's ApplicationGateways](https://azure.microsoft.com/en-us/services/application-gateway/)
     * Similar to the [Google Cloud Ingress Controller](https://github.com/kubernetes/contrib/tree/master/ingress/controllers/gce)
@@ -70,6 +48,11 @@ These are potential projects that anyone could pick up to help Kubernetes on Azu
   * **Description**:
     * Implementation of [dnsprovider](https://github.com/kubernetes/kubernetes/tree/master/federation/pkg/dnsprovider).
     * Likely additional work...
+4. **Azure Disk Performance Improvements**
+  * **Status**: Not being actively looked at
+  * **Description**:
+    * See this issue for some background.
+    * Some investigation is needed to identify and drive improvements on things that are causing AzureDisk attach/detach performance to be lower than expected.
 
 ## Notes
 
