@@ -51,7 +51,7 @@ These are potential projects that anyone could pick up to help Kubernetes on Azu
 4. **Azure Disk Performance Improvements**
   * **Status**: Not being actively looked at
   * **Description**:
-    * See this issue for some background.
+    * See [this issue (and referenced issues)](https://github.com/colemickens/azure-kubernetes-demo/issues/14#issuecomment-250564890) for some background.
     * Some investigation is needed to identify and drive improvements on things that are causing AzureDisk attach/detach performance to be lower than expected.
 
 ## Notes
