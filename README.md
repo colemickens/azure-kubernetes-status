@@ -1,5 +1,6 @@
 ### Status of Kubernetes on Azure
 
-# This repository is now deprecated.
+# This repository has been deprecated for 10+ months.
 
-## Please see the [Azure/ACS](https://github.com/Azure/ACS) repository for latest information about Kubernetes on Azure and the Azure Container Service.
+# It will be deleted soon.
+# Go here instead: https://github.com/Azure/AKS.
